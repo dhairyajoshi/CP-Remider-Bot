@@ -3,13 +3,16 @@ import discord
 import requests
 import json
 from datetime import date,time
-TOKEN = os.environ['TOKEN']
+from dotenv import load_dotenv
+load_dotenv()
+TOKEN = os.getenv('TOKEN')
+API= os.getenv('API_KEY')
 
 client= discord.Client()
 
 def get_contest(dte):
   url='https://clist.by:443/api/v2/contest/?limit=10&start__gt='+str(dte)+'T00%3A00%3A00&order_by=end&format=json'
-  response =requests.get(url,headers={'Authorization':'ApiKey coderr_:50782e56c2c92c88f7cd83e95e54924ae7971376'})
+  response =requests.get(url,headers={'Authorization':'ApiKey ' + API})
   json_data=json.loads(response.text)
   result=''
   for i in range(0,5): 
@@ -46,7 +49,6 @@ async def on_message(msg):
 
   if msg.content.startswith('$show -d'):
     dte=msg.content.split('d')[1].strip()
-    print(dte)
     first= get_contest(dte)
     await msg.channel.send(first)
 
@@ -54,7 +56,5 @@ async def on_message(msg):
     info='I am a bot to help you remind about upcoming contests \nUse $show to show list of contests going on today \nUse $show -d yyyy-mm-dd to show list of contests on that particular date\nStill under development don\'t bully please'
     await msg.channel.send(info)
 
-  if msg.author.id==881120800609026069:
-    await msg.repy("shut up gae")
 
 client.run(TOKEN)
