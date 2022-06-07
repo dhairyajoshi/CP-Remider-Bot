@@ -1,3 +1,4 @@
+from keep_alive import keep_alive
 import os
 import discord
 import requests
@@ -56,5 +57,5 @@ async def on_message(msg):
     info='I am a bot to help you remind about upcoming contests \nUse $show to show list of contests going on today \nUse $show -d yyyy-mm-dd to show list of contests on that particular date\nStill under development don\'t bully please'
     await msg.channel.send(info)
 
-
+keep_alive()
 client.run(TOKEN)
